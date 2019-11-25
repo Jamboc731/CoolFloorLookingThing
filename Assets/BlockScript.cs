@@ -19,11 +19,12 @@ public class BlockScript : MonoBehaviour
         range = maxDist - minDist;
         player = GameObject.Find ("Player");
         highHeight = transform.position;
-        lowHeight = highHeight - new Vector3 (0, heightChange, 0);
     }
 
     private void Update ()
     {
+        lowHeight = highHeight - new Vector3 (0, heightChange, 0);
+        heightChange = player.transform.position.y;
         distFromPlayer = Vector3.Distance (highHeight, player.transform.position);
 
         distFromPlayer -= minDist;
