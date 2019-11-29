@@ -1,4 +1,4 @@
-﻿Shader "Custom/NewSurfaceShader"
+﻿Shader "Custom/WriteToTexture"
 {
     Properties
     {
@@ -6,6 +6,7 @@
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
         _Metallic ("Metallic", Range(0,1)) = 0.0
+		_WriteToMe("Texture to Write To: ", 2D) = "white" {}
     }
     SubShader
     {
@@ -14,12 +15,27 @@
 
         CGPROGRAM
         // Physically based Standard lighting model, and enable shadows on all light types
-        #pragma surface surf Standard fullforwardshadows
+        #pragma surface surf Standard fullforwardshadows vertex:vert
 
         // Use shader model 3.0 target, to get nicer looking lighting
         #pragma target 3.0
 
         sampler2D _MainTex;
+		sampler2D _WriteToMe;
+
+		void vert(inout appdata_full v)
+		{
+
+			float4 hitPointLocal = mul(unity_WorldToObject, _Pos);
+
+			float3 lengthVector = hitPointLocal.xyz - v.vertex.xyz;
+			float d = length(lengthVector);
+
+			_WriteToMe.uv = 
+
+			v.vertex.y += clamp(1 * (1 / (_Radius)), 0, 0.3);
+
+		}
 
         struct Input
         {
